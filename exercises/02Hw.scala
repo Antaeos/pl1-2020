@@ -25,11 +25,12 @@ case class And(lhs: Exp, rhs: Exp) extends Exp
 case class Or(lhs: Exp, rhs: Exp) extends Exp
 case class Not(e: Exp) extends Exp
 case class Impl(lhs: Exp, rhs: Exp) extends Exp
-
+case class Nand(lhs: Exp, rhs: Exp) extends Exp
+  
 def eval(e: Exp) : Boolean = e match {
   case True()     => true
   case False()    => false
-  case _          => sys.error("not yet implemented")
+  case And(lhs, rhs)        => !eval(l) && !eval(r)
 }
 
 /**
