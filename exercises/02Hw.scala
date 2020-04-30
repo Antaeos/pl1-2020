@@ -31,10 +31,10 @@ def eval(e: Exp) : Boolean = e match {
   case True()                 => true
   case False()                => false
   case Nand(lhs, rhs)         => !eval(l) && !eval(r)
-  case And(lhs, rhs)          => eval(Nand(!eval(l), !eval(r)))
-  case Or(lhs, rhs)           => eval(!Nand(eval(l), eval(r)))
-  case Not(e)                 => sys.error("not yet implemented")
-  case Impl(lhs, rhs)         => eval(!Nand(!eval(l), eval(r)))
+  case And(lhs, rhs)          => eval(Nand(Not(lhs), Not(rhs)))
+  case Or(lhs, rhs)           => eval(Not(Nand(lhs, rhs)))
+  case Not(e)                 => !eval(e)
+  case Impl(lhs, rhs)         => eval(Not(Nand(Not(lhs), rhs)))
 }
 
 /**
