@@ -113,14 +113,14 @@ def subst(e: Exp,i: Symbol,v : Num) : Exp = e match {
                                 subst(xdef,i,v),
                                 if (x == i) body else subst(body,i,v))
   case Let(defs, body) =>
-    val replBody = sys.error("not yet implemented")
+    val replBody = subst(body,i,v)
     val replDefs = defs map {
       //This is an anonymous function that decomposes the argument pair into x and xDef.
       case (x, xDef) => (x, subst(xDef, i, v))
     }
     Let(replDefs, replBody)
   case LetStar(defs, body) =>
-    val replBody = sys.error("not yet implemented")
+    val replBody = 
     val replDefs = sys.error("not yet implemented")
     LetStar(replDefs, replBody)
 }
@@ -131,7 +131,7 @@ def eval(e: Exp) : Int = e match {
   case Add(l,r) => eval(l) + eval(r)
   case Mul(l,r) => eval(l) * eval(r)
   case With(x, xdef, body) => eval(subst(body,x,Num(eval(xdef)))) 
-  case Let(defs,body) => sys.error("not yet implemented")
+  case Let(defs,body) => eval(subst(body,(x,(xDef,i, eval(v)))))
   case LetStar(defs,body) => sys.error("not yet implemented")
 }
  
